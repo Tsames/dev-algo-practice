@@ -24,11 +24,6 @@ Follow up: Can you solve the problem in O(1) extra space complexity? (The output
 '''
 
 class Solution:
-    '''
-    The naive solution might be an O(n^2) solution where for each member of nums we iterate over all other elements to calculate the product.
-
-
-    '''
     def productExceptSelf(self, nums: list[int]) -> list[int]:
         prefix_product, postfix_product = 1, 1
         prefixes, postfixes = [1] * len(nums), [1] * len(nums)
@@ -49,9 +44,20 @@ class Solution:
 
         return res
 
-    # def productExceptSelfLessSpace(self, nums: list[int]) -> list[int]:
+    def productExceptSelfLessSpace(self, nums: list[int]) -> list[int]:
+        res = [1] * len(nums)
+        product = 1
 
+        for i in range(len(nums)):
+            res[i] = product
+            product *= nums[i]
 
+        product = 1
+        for j in reversed(range(len(nums))):
+            res[j] = res[j] * product
+            product *= nums[j]
+
+        return res
 
 solution = Solution()
 
@@ -73,6 +79,26 @@ assert actual == expected, f"Test three failed. Expected: {expected}, but got: {
 # Test case 4
 expected = [120, 40, 30, 24, 60]
 actual = solution.productExceptSelf([-1, -3, -4, -5, -2])
+assert actual == expected, f"Test four failed. Expected: {expected}, but got: {actual}"
+
+# Test case 5
+expected = [24, 12, 8, 6]
+actual = solution.productExceptSelfLessSpace([1, 2, 3, 4])
+assert actual == expected, f"Test one failed. Expected: {expected}, but got: {actual}"
+
+# Test case 6
+expected = [0, 0, 9, 0, 0]
+actual = solution.productExceptSelfLessSpace([-1, 1, 0, -3, 3])
+assert actual == expected, f"Test two failed. Expected: {expected}, but got: {actual}"
+
+# Test case 7
+expected = [0, 0, 0, 0, 0]
+actual = solution.productExceptSelfLessSpace([0, 9, 9, 9, 0])
+assert actual == expected, f"Test three failed. Expected: {expected}, but got: {actual}"
+
+# Test case 8
+expected = [120, 40, 30, 24, 60]
+actual = solution.productExceptSelfLessSpace([-1, -3, -4, -5, -2])
 assert actual == expected, f"Test four failed. Expected: {expected}, but got: {actual}"
 
 print("All tests passed!")
