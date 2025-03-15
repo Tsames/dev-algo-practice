@@ -42,73 +42,33 @@ Constraints:
 -1000 <= nums[i] <= 1000
 """
 
-
 class Solution:
     def minimumSumSubArray(self, nums, l, r):
-        """
-        Explore:
-        -------
+        minSum = float('inf')
+        for i in range(l, r + 1):
+            currSum = 0
 
-        Intuitively, we want to iterate through our given array, maintaining a window
-        that will consider all possible subarray that are of size l <= s <= r where s
-        is the size of our window.
+            for j in range(i):
+                currSum += nums[j]
+            if currSum > 0:
+                minSum = min(minSum, currSum)
 
-        Lets looks at an example:
-        [1, 2, 3, 4, 5] : l = 2 : r = 3
+            low, high = 0, i
 
-        We want our window to stretch to its maximum size right away.
+            while high < len(nums):
+                currSum -= nums[low]
+                currSum += nums[high]
 
-            [1,2] -> [1,2,3]
+                low += 1
+                high += 1
 
-        Next we would want our window to shrink down to it minimum size, moving its
-        left end to the right.
+                if currSum > 0:
+                    minSum = min(minSum, currSum)
 
-            [2,3]
+        if minSum == float('inf'):
+            return -1
+        return minSum
 
-        Then we would again want to stretch the window to its maximum size.
-
-            [2,3,4]
-
-       We follow this pattern until the end. Once the left side of our window is far
-       enough into our array that we can't form a big enough window, we would stop.
-
-       Thus, a simplified version of the rule could be that our left pointer is less
-       than the length of nums.
-
-       Outline:
-       --------
-
-        Declare a res variable to keep track of the subarray with the minimum value.
-        This variable should start at -1 since this is the value that should be
-        returned if we can't find any subarrays that satisfy our conditions.
-        Declare a minSum variable set to positive infinity.
-
-        Declare a left pointer, left_pointer, and a right pointer, right_pointer,
-        both set to 0.
-        Declare a curSum variable, set to 0.
-
-        Iterate while left is less than the length of nums:
-            The size of our subarray is equal to right - left + 1 (since arrays are 0
-            indexed)
-
-            If our window is an acceptable size, the sum of the window is greater than
-            0, and the sum of the window is less than previous windows, then
-                Set res to the current window.
-
-
-        """
-        res = -1
-        left_pointer, right_pointer = 0, 0
-        minSum, curSum = float("inf"), 0
-
-        while right_pointer < len(nums):
-            while right_pointer < len(nums) and right_pointer - left_pointer + 1 < r:
-
-
-            # Evaluate the window
-            # if l <= size and size <= r and curSum >0 and curSum < minSum:
-            #     res = nums[left_pointer:right_pointer + 1]
-            #     minSum = curSum
 
 solution = Solution()
 
