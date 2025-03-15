@@ -63,14 +63,12 @@ class Solution:
 
         # O(k) to fill up res
         res = []
-        for i in range(len(freq - 1), 0, -1):
+        for i in reversed(range(len(freq))):
             for n in freq[i]:
                 res.append(n)
                 if len(res) == k:
-                    break
-                
-        return res
-        
+                    return res
+
 solution = Solution()
 assert solution.topKElements([1,2,2,3,3,3], 2) == [3,2], "Test one failed."
 assert solution.topKElements([7,7], 1) == [7], f"Test two failed."
