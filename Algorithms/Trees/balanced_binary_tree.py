@@ -30,14 +30,16 @@ class Solution:
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
         def dfs(root) -> list[int, bool]:
             if not root:
-                return [0, True]
+               return 0
 
-            left = dfs(root.left)[0]
-            right = dfs(root.right)[0]
+            left = dfs(root.left)
+            right = dfs(root.right)
+            if left == -1 or right == -1 or abs(left - right) > 1:
+                return -1
 
-            return [max(left, right) + 1, abs(left - right) <= 1]
+            return max(left, right) + 1
 
-        return dfs(root)[1]
+        return dfs(root) != -1
 
 solution = Solution()
 
@@ -73,7 +75,7 @@ assert actual == expected, f"Test five failed. Expected: {expected}, but got: {a
 
 # Test case 6: Left-heavy unbalanced tree
 expected = False
-tree = createFromList([1, 2, None, 3, None, 4])
+tree = createFromList([1,2,2,3,None,None,3,4,None,None,4])
 actual = solution.isBalanced(tree)
 assert actual == expected, f"Test six failed. Expected: {expected}, but got: {actual}"
 
