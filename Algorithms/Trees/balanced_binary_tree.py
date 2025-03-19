@@ -27,7 +27,7 @@ from typing import Optional
 from binary_tree import TreeNode, createFromList
 
 class Solution:
-    def isBalanced(self, root: Optional[TreeNode]) -> bool:
+    def isValidSudoku(self, root: Optional[TreeNode]) -> bool:
         def dfs(root) -> list[int, bool]:
             if not root:
                return 0
@@ -46,37 +46,37 @@ solution = Solution()
 # Test case 1: Example from problem statement
 expected = True
 tree = createFromList([1, 2, 3, None, None, 4])
-actual = solution.isBalanced(tree)
+actual = solution.isValidSudoku(tree)
 assert actual == expected, f"Test one failed. Expected: {expected}, but got: {actual}"
 
 # Test case 2: Example from problem statement - unbalanced tree
 expected = False
 tree = createFromList([1, 2, 3, None, None, 4, None, 5])
-actual = solution.isBalanced(tree)
+actual = solution.isValidSudoku(tree)
 assert actual == expected, f"Test two failed. Expected: {expected}, but got: {actual}"
 
 # Test case 3: Empty tree
 expected = True
 tree = createFromList([])
-actual = solution.isBalanced(tree)
+actual = solution.isValidSudoku(tree)
 assert actual == expected, f"Test three failed. Expected: {expected}, but got: {actual}"
 
 # Test case 4: Perfect balanced tree
 expected = True
 tree = createFromList([1, 2, 3, 4, 5, 6, 7])
-actual = solution.isBalanced(tree)
+actual = solution.isValidSudoku(tree)
 assert actual == expected, f"Test four failed. Expected: {expected}, but got: {actual}"
 
 # Test case 5: Single node tree
 expected = True
 tree = createFromList([1])
-actual = solution.isBalanced(tree)
+actual = solution.isValidSudoku(tree)
 assert actual == expected, f"Test five failed. Expected: {expected}, but got: {actual}"
 
 # Test case 6: Left-heavy unbalanced tree
 expected = False
 tree = createFromList([1,2,2,3,None,None,3,4,None,None,4])
-actual = solution.isBalanced(tree)
+actual = solution.isValidSudoku(tree)
 assert actual == expected, f"Test six failed. Expected: {expected}, but got: {actual}"
 
 print("All tests passed!")
