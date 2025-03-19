@@ -49,10 +49,51 @@ board[i].length == 9
 board[i][j] is a digit 1-9 or '.'.
 """
 
-
 class Solution:
     def isValidSudoku(self, board: list[list[str]]) -> bool:
-        return False
+        """
+        Since Sudoku requires that no numbers repeat, and we are only checking the
+        exisiting cells, we could make sets for each row, column, and square that we
+        need to check (by square I mean a 3x3 subgrid).
+
+        While iterating over those indecies, we would just add to and check our sets.
+        If we ever found an element that already exists in our sets, we could break and
+        return false.
+        Otherwise, we return true if we get through all the iterations.
+
+        The only tricky part with this solution is how do we know what square we are
+        iterating inside?
+        So how could we calculate this?
+        The column index // 3 would give us 0, 1, or 2
+        The row index // 3 would also give us 0, 1, or 2
+        We can't just add the row and column indexes after the floor division to get
+        the square index.
+        We have to find another way.
+        We would want to start with the row index after floor division times three to
+        get the starting square in the row's index.
+        Then we would add the column index after floor division to get the square's
+        position.
+        """
+
+        rows = [set() for _ in range(9)]
+        cols = [set() for _ in range(9)]
+        squares = [set() for _ in range(9)]
+
+        for row in range(9):
+            for col in range(9):
+                tile = board[row][col]
+                if tile == ".":
+                    continue
+
+                square = 3 * (row // 3) + (col // 3)
+                if tile in rows[row] or tile in cols[col] or tile in squares[square]:
+                    return False
+
+                rows[row].add(tile)
+                cols[col].add(tile)
+                squares[square].add(tile)
+
+        return True
 
 solution = Solution()
 
