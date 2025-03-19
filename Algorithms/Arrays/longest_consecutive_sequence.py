@@ -57,7 +57,7 @@ class Solution:
         If it doesn't have a left neighbor, we just move on.
         """
 
-        longest = 1
+        longest = 0
         all_nums = set(nums)
 
         for num in nums:
