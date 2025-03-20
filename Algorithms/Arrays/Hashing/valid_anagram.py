@@ -1,7 +1,7 @@
 '''
 https://leetcode.com/problems/valid-anagram/description/
 
-242. Valid Anagram
+Valid Anagram
 Given two strings s and t, return true if t is an anagram of s, and false otherwise.
 
 Example 1:
