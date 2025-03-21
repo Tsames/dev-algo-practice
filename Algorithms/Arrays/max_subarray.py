@@ -28,6 +28,17 @@ the divide and conquer approach, which is more subtle.
 """
 
 class Solution:
+    def maxSubArrayBrute(self, nums: list[int]) -> int:
+        res = float("-inf")
+
+        for i in range(len(nums)):
+            cur_sum = 0
+            for j in range(i, len(nums)):
+                cur_sum += nums[j]
+                res = max(res, cur_sum)
+
+        return res
+
     def maxSubArray(self, nums: list[int]) -> int:
         res = float("-inf")
         sum = 0
@@ -70,5 +81,29 @@ nums = [-5, -4, -1, -7, -8]
 expected = -1
 actual = solution.maxSubArray(nums)
 assert actual == expected, f"Test 4 failed. Expected: {expected}, but got: {actual}"
+
+# Test case 5: Mix of positive and negative numbers
+nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
+expected = 6
+actual = solution.maxSubArrayBrute(nums)
+assert actual == expected, f"Test 5 failed. Expected: {expected}, but got: {actual}"
+
+# Test case 6: Single element array
+nums = [1]
+expected = 1
+actual = solution.maxSubArrayBrute(nums)
+assert actual == expected, f"Test 6 failed. Expected: {expected}, but got: {actual}"
+
+# Test case 7: Mostly positive numbers
+nums = [5, 4, -1, 7, 8]
+expected = 23
+actual = solution.maxSubArrayBrute(nums)
+assert actual == expected, f"Test 7 failed. Expected: {expected}, but got: {actual}"
+
+# Test case 8: All negative numbers
+nums = [-5, -4, -1, -7, -8]
+expected = -1
+actual = solution.maxSubArrayBrute(nums)
+assert actual == expected, f"Test 8 failed. Expected: {expected}, but got: {actual}"
 
 print("All tests passed!")
