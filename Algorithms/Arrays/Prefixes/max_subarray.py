@@ -27,6 +27,7 @@ Follow up: If you have figured out the O(n) solution, try coding another solutio
 the divide and conquer approach, which is more subtle.
 """
 
+
 class Solution:
     def maxSubArrayBrute(self, nums: list[int]) -> int:
         res = float("-inf")
@@ -40,21 +41,23 @@ class Solution:
         return res
 
     def maxSubArray(self, nums: list[int]) -> int:
+        """
+        The whole idea here is that if we ever encounter a negative prefix, we should
+        reset the beginning of the subarray we are considering to a new num.
+        This makes sense because negative prefixes (cur_sum to that point) don't help us
+        build a bigger subarray.
+        """
         res = float("-inf")
-        sum = 0
+        cur_sum = 0
 
-        l = r = 0
-        while r < len(nums):
-            sum += nums[r]
-            res = max(res, sum)
-
-            if sum < 0:
-                sum = 0
-                l += 1
-
-            r += 1
+        for n in nums:
+            if cur_sum < 0:
+                cur_sum = 0
+            cur_sum += n
+            res = max(res, cur_sum)
 
         return res
+
 
 solution = Solution()
 
