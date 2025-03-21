@@ -34,10 +34,16 @@ At most 104 calls will be made to sumRange.
 class NumArray:
 
     def __init__(self, nums):
-        #Todo
+        self.prefixes = []
+        prefix_sum = 0
+        for n in nums:
+            prefix_sum += n
+            self.prefixes.append(prefix_sum)
 
     def sum_range(self, left, right):
-        #Todo
+        right_sum = self.prefixes[right]
+        left_sum = self.prefixes[left - 1] if left > 0 else 0
+        return right_sum - left_sum
 
 nums = [-2, 0, 3, -5, 2, -1]
 num_array = NumArray(nums)
