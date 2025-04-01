@@ -57,46 +57,20 @@ class Solution:
 
 solution = Solution()
 
-# Test case 1: Example from problem statement
-nums = [1, 1, 1]
-k = 2
-expected = 2
-actual = solution.subarray_sum_equals_k(nums, k)
-assert actual == expected, f"Test 1 failed. Expected: {expected}, but got: {actual}"
+test_cases = [
+    {"nums": [1, 1, 1], "k": 2, "expected": 2, "description": "Example from problem statement"},
+    {"nums": [1, 2, 3], "k": 3, "expected": 2, "description": "Example from problem statement"},
+    {"nums": [5], "k": 5, "expected": 1, "description": "Single element matching k"},
+    {"nums": [3, 4, -7, 1, 3, 3, 1, -4], "k": 7, "expected": 4, "description": "Array with negative numbers"},
+    {"nums": [0, 0, 0, 0], "k": 0, "expected": 10, "description": "Array with zeros (all possible subarrays)"},
+    {"nums": [1, 2, 3, 4], "k": 11, "expected": 0, "description": "No matching subarrays"}
+]
 
-# Test case 2: Example from problem statement
-nums = [1, 2, 3]
-k = 3
-expected = 2
-actual = solution.subarray_sum_equals_k(nums, k)
-assert actual == expected, f"Test 2 failed. Expected: {expected}, but got: {actual}"
-
-# Test case 3: Single element matching k
-nums = [5]
-k = 5
-expected = 1
-actual = solution.subarray_sum_equals_k(nums, k)
-assert actual == expected, f"Test 3 failed. Expected: {expected}, but got: {actual}"
-
-# Test case 4: Array with negative numbers
-nums = [3, 4, -7, 1, 3, 3, 1, -4]
-k = 7
-expected = 4
-actual = solution.subarray_sum_equals_k(nums, k)
-assert actual == expected, f"Test 4 failed. Expected: {expected}, but got: {actual}"
-
-# Test case 5: Array with zeros
-nums = [0, 0, 0, 0]
-k = 0
-expected = 10  # All possible subarrays of zeros sum to 0
-actual = solution.subarray_sum_equals_k(nums, k)
-assert actual == expected, f"Test 5 failed. Expected: {expected}, but got: {actual}"
-
-# Test case 6: No matching subarrays
-nums = [1, 2, 3, 4]
-k = 10
-expected = 0
-actual = solution.subarray_sum_equals_k(nums, k)
-assert actual == expected, f"Test 6 failed. Expected: {expected}, but got: {actual}"
+for i, test in enumerate(test_cases, 1):
+    nums = test["nums"]
+    k = test["k"]
+    expected = test["expected"]
+    actual = solution.subarray_sum_equals_k(nums, k)
+    assert actual == expected, f"Test {i} ({test['description']}) failed. Expected: {expected}, but got: {actual}"
 
 print("All tests passed!")
