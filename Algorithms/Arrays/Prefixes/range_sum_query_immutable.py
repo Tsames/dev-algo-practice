@@ -45,39 +45,43 @@ class NumArray:
         left_sum = self.prefixes[left - 1] if left > 0 else 0
         return right_sum - left_sum
 
-nums = [-2, 0, 3, -5, 2, -1]
-num_array = NumArray(nums)
+test_cases = [
+    {
+        "nums": [-2, 0, 3, -5, 2, -1],
+        "queries": [(0, 2, 1), (2, 5, -1), (0, 5, -3), (3, 3, -5)],
+        "description": "Example from problem statement"
+    },
+    {
+        "nums": [1, 2, 3, 4, 5],
+        "queries": [(1, 3, 9), (0, 4, 15), (2, 4, 12)],
+        "description": "All positive integers"
+    },
+    {
+        "nums": [-1, -2, -3, -4, -5],
+        "queries": [(0, 2, -6), (1, 3, -9), (0, 4, -15)],
+        "description": "All negative integers"
+    },
+    {
+        "nums": [10],
+        "queries": [(0, 0, 10)],
+        "description": "Single element array"
+    },
+    {
+        "nums": [5, 0, 7, 0, 8],
+        "queries": [(0, 4, 20), (1, 3, 7), (1, 1, 0)],
+        "description": "Array with zeros"
+    }
+]
 
-# Test case 1: Example from problem statement
-left, right = 0, 2
-expected = 1  # (-2) + 0 + 3 = 1
-actual = num_array.sum_range(left, right)
-assert actual == expected, f"Test 1 failed. Expected: {expected}, but got: {actual}"
+for i, test in enumerate(test_cases, 1):
+    nums = test["nums"]
+    queries = test["queries"]
+    description = test["description"]
 
-# Test case 2: Example from problem statement
-left, right = 2, 5
-expected = -1  # 3 + (-5) + 2 + (-1) = -1
-actual = num_array.sum_range(left, right)
-assert actual == expected, f"Test 2 failed. Expected: {expected}, but got: {actual}"
+    num_array = NumArray(nums)
 
-# Test case 3: Example from problem statement
-left, right = 0, 5
-expected = -3  # (-2) + 0 + 3 + (-5) + 2 + (-1) = -3
-actual = num_array.sum_range(left, right)
-assert actual == expected, f"Test 3 failed. Expected: {expected}, but got: {actual}"
-
-# Test case 4: Single element range
-left, right = 3, 3
-expected = -5  # Just the element at index 3
-actual = num_array.sum_range(left, right)
-assert actual == expected, f"Test 4 failed. Expected: {expected}, but got: {actual}"
-
-# Test case 5: Different array
-nums = [1, 2, 3, 4, 5]
-num_array = NumArray(nums)
-left, right = 1, 3
-expected = 9  # 2 + 3 + 4 = 9
-actual = num_array.sum_range(left, right)
-assert actual == expected, f"Test 5 failed. Expected: {expected}, but got: {actual}"
+    for j, (left, right, expected) in enumerate(queries, 1):
+        actual = num_array.sum_range(left, right)
+        assert actual == expected, f"Test {i}.{j} ({description}) failed. Range [{left}, {right}] - Expected: {expected}, but got: {actual}"
 
 print("All tests passed!")
