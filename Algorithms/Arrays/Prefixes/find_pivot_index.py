@@ -39,7 +39,34 @@ Note: This question is the same as 1991: https://leetcode.com/problems/find-the-
 """
 class Solution:
     def pivot_index(self, nums: list[int]) -> int:
+        """
+        If we want to find a pivot we need to know that the first n elements total the same number as the last m
+        elements.
+        One way that we could do this is by computing a prefix and a suffix array.
+        The prefix array would hold the sum of all elements occurring before the current element.
+        The suffix array would hold the sum of all elements occurring after the current element.
 
+        We would then iterate through our input array, comparing that same index in our prefix and suffix array.
+        The first element we find that has the same value in both prefix and suffix arrays would be what we return.
+
+        This would be an O(n) time complexity and O(n) space complexity solution
+        """
+        prefixes, suffixes = [0] * len(nums), [0] * len(nums)
+        sum_curr = 0
+        for i in range(len(nums)):
+            prefixes[i] = sum_curr
+            sum_curr += nums[i]
+
+        sum_curr = 0
+        for j in reversed(range(len(nums))):
+            suffixes[j] = sum_curr
+            sum_curr += nums[j]
+
+        for k in range(len(nums)):
+            if prefixes[k] == suffixes[k]:
+                return k
+
+        return -1
 
 solution = Solution()
 
@@ -52,7 +79,7 @@ test_cases = [
     {"nums": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "expected": -1, "description": "No pivot index in an "
                                                                              "non-negative ascending sequence"},
     {"nums": [-1, -1, -1, 0, 1, 1], "expected": 0, "description": "Pivot index at the start with negative numbers"},
-    {"nums": [1, 2, 3, 4, 5, 6, 7, 8, 9, -45], "expected": 9, "description": "Pivot index at the end"}
+    {"nums": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 45], "expected": 9, "description": "Pivot index at the end"}
 ]
 
 for i, test in enumerate(test_cases, 1):
