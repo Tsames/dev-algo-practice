@@ -22,7 +22,6 @@ n == height.length
 0 <= height[i] <= 105
 """
 
-
 class Solution:
     def trap(self, heights: list[int]) -> int:
         """
@@ -94,19 +93,34 @@ class Solution:
             max_left.append(left)
             left = max(left, height)
 
-        print(max_left)
-
         right, max_right = 0, [0] * len(heights)
         for i in reversed(range(len(heights))):
             max_right[i] = right
             right = max(right, heights[i])
 
-        print(max_right)
-
         res = 0
         for i in range(len(heights)):
             rain = min(max_left[i], max_right[i]) - heights[i]
             res += rain if rain > 0 else 0
+
+        return res
+
+    def trap_no_extra_space(self, heights: list[int]) -> int:
+        if not heights: return 0
+
+        left, right = 0, len(heights) - 1
+        max_left, max_right = heights[left], heights[right]
+        res = 0
+
+        while left < right:
+            if max_left <= max_right:
+                left += 1
+                max_left = max(max_left, heights[left])
+                res += max_left - heights[left]
+            else:
+                right -= 1
+                max_right = max(max_right, heights[right])
+                res += max_right - heights[right]
 
         return res
 
@@ -119,40 +133,61 @@ expected = 6
 actual = solution.trap(heights)
 assert actual == expected, f"Test 1 failed. Expected: {expected}, but got: {actual}"
 
+actual = solution.trap_no_extra_space(heights)
+assert actual == expected, f"Test 1 (no extra space) failed. Expected: {expected}, but got: {actual}"
+
 # Test 2: Example from problem statement
 heights = [4, 2, 0, 3, 2, 5]
 expected = 9
 actual = solution.trap(heights)
 assert actual == expected, f"Test 2 failed. Expected: {expected}, but got: {actual}"
 
-# Test 4: Single element
+actual = solution.trap_no_extra_space(heights)
+assert actual == expected, f"Test 2 (no extra space) failed. Expected: {expected}, but got: {actual}"
+
+# Test 3: Single element
 heights = [5]
+expected = 0
+actual = solution.trap(heights)
+assert actual == expected, f"Test 3 failed. Expected: {expected}, but got: {actual}"
+
+actual = solution.trap_no_extra_space(heights)
+assert actual == expected, (f"Test 3 (no extra space) failed. Expected: {expected}, "
+                            f"but got: {actual}")
+# Test 4: No trapped water (ascending)
+heights = [1, 2, 3, 4, 5]
 expected = 0
 actual = solution.trap(heights)
 assert actual == expected, f"Test 4 failed. Expected: {expected}, but got: {actual}"
 
-# Test 5: No trapped water (ascending)
-heights = [1, 2, 3, 4, 5]
+actual = solution.trap_no_extra_space(heights)
+assert actual == expected, (f"Test 4 (no extra space) failed. Expected: {expected}, "
+                            f"but got: {actual}")
+# Test 5: No trapped water (descending)
+heights = [5, 4, 3, 2, 1]
 expected = 0
 actual = solution.trap(heights)
 assert actual == expected, f"Test 5 failed. Expected: {expected}, but got: {actual}"
 
-# Test 6: No trapped water (descending)
-heights = [5, 4, 3, 2, 1]
-expected = 0
-actual = solution.trap(heights)
-assert actual == expected, f"Test 6 failed. Expected: {expected}, but got: {actual}"
-
-# Test 7: Valley pattern
+actual = solution.trap_no_extra_space(heights)
+assert actual == expected, (f"Test 5 (no extra space) failed. Expected: {expected}, "
+                            f"but got: {actual}")
+# Test 6: Valley pattern
 heights = [5, 1, 5]
 expected = 4
 actual = solution.trap(heights)
-assert actual == expected, f"Test 7 failed. Expected: {expected}, but got: {actual}"
+assert actual == expected, f"Test 6 failed. Expected: {expected}, but got: {actual}"
 
-# Test 8: Complex pattern
+actual = solution.trap_no_extra_space(heights)
+assert actual == expected, (f"Test 6 (no extra space) failed. Expected: {expected}, "
+                            f"but got: {actual}")
+# Test 7: Complex pattern
 heights = [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]
 expected = 6
 actual = solution.trap(heights)
-assert actual == expected, f"Test 8 failed. Expected: {expected}, but got: {actual}"
+assert actual == expected, f"Test 7 failed. Expected: {expected}, but got: {actual}"
 
+actual = solution.trap_no_extra_space(heights)
+assert actual == expected, (f"Test 7 (no extra space) failed. Expected: {expected}, "
+                            f"but got: {actual}")
 print("All tests passed!")
