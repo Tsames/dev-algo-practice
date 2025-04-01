@@ -39,7 +39,6 @@ n == matrix[i].length
 At most 104 calls will be made to sumRegion.
 """
 
-
 class NumMatrix(object):
     def __init__(self, matrix):
         row, col = len(matrix), len(matrix[0])
