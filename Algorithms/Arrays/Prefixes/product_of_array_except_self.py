@@ -62,8 +62,10 @@ class Solution:
 
         return res
 
-solution = Solution()
+    def product_except_self_constant_space(self, nums: list[int]) -> list[int]:
 
+
+solution = Solution()
 test_cases = [
     {"nums": [1, 2, 3, 4], "expected": [24, 12, 8, 6],
      "description": "Example from problem statement"},
@@ -87,6 +89,14 @@ for i, test in enumerate(test_cases, 1):
     expected = test["expected"]
     actual = solution.product_except_self_with_extra_space(nums)
     assert actual == expected, (f"Test {i} ({test['description']}) failed. Expected: "
+                                f"{expected}, but got: {actual}")
+
+for i, test in enumerate(test_cases, 1):
+    nums = test["nums"]
+    expected = test["expected"]
+    actual = solution.product_except_self_constant_space(nums)
+    assert actual == expected, (f"Test {i} ({test['description']}) with constant space "
+                                f"failed. Expected: "
                                 f"{expected}, but got: {actual}")
 
 print("All tests passed!")
