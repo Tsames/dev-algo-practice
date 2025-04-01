@@ -86,11 +86,41 @@ class NumMatrix(object):
         overlapping_box = self.prefix_matrix[r1 - 1][c1 - 1]
         return self.prefix_matrix[r2][c2] - left_box - above_box + overlapping_box
 
+matrix = [
+    [3, 0, 1, 4, 2],
+    [5, 6, 3, 2, 1],
+    [1, 2, 0, 1, 5],
+    [4, 1, 0, 1, 7],
+    [1, 0, 3, 0, 5]
+]
 
-solution = NumMatrix(
-    [[3, 0, 1, 4, 2], [5, 6, 3, 2, 1], [1, 2, 0, 1, 5], [4, 1, 0, 1, 7], [1, 0, 3, 0,
-                                                                          5]])
-expected = 8
-actual = solution.sumregion(2, 1, 4, 3, )
-assert solution.sumregion(2, 1, 4, 3) == 8, (f"Test failed. Got {actual} but expected "
-                                             f"{expected}.")
+solution = NumMatrix(matrix)
+
+# Test 1: Original example from problem statement
+assert solution.sumregion(2, 1, 4, 3) == 8, "Test 1 Failed: Example region 1"
+
+# Test 2: Single element region
+assert solution.sumregion(0, 0, 0, 0) == 3, "Test 2 Failed: Single element"
+
+# Test 3: Entire matrix
+assert solution.sumregion(0, 0, 4, 4) == 58, "Test 3 Failed: Entire matrix"
+
+# Test 4: Single row
+assert solution.sumregion(1, 0, 1, 4) == 17, "Test 4 Failed: Single row"
+
+# Test 5: Single column
+assert solution.sumregion(0, 2, 4, 2) == 7, "Test 5 Failed: Single column"
+
+# Test 6: Top-left quadrant
+assert solution.sumregion(0, 0, 1, 1) == 14, "Test 6 Failed: Top-left quadrant"
+
+# Test 7: Top-right quadrant
+assert solution.sumregion(0, 3, 1, 4) == 9, "Test 7 Failed: Top-right quadrant"
+
+# Test 8: Bottom-left quadrant
+assert solution.sumregion(3, 0, 4, 1) == 6, "Test 8 Failed: Bottom-left quadrant"
+
+# Test 9: Bottom-right quadrant
+assert solution.sumregion(3, 3, 4, 4) == 13, "Test 9 Failed: Bottom-right quadrant"
+
+print("All tests passed!")
