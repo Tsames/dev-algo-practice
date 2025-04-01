@@ -68,6 +68,17 @@ class Solution:
 
         return -1
 
+    def pivot_index_faster(self, nums: list[int]) -> int:
+        total = sum(nums)
+
+        prefix_sum = 0
+        for i in range((len(nums))):
+            suffix_sum = total - nums[i] - prefix_sum
+            if prefix_sum == suffix_sum:
+                return i
+            prefix_sum += nums[i]
+        return -1
+
 solution = Solution()
 
 test_cases = [
@@ -87,5 +98,12 @@ for i, test in enumerate(test_cases, 1):
     expected = test["expected"]
     actual = solution.pivot_index(nums)
     assert actual == expected, f"Test {i} ({test['description']}) failed. Expected: {expected}, but got: {actual}"
+
+for i, test in enumerate(test_cases, 1):
+    nums = test["nums"]
+    expected = test["expected"]
+    actual = solution.pivot_index_faster(nums)
+    assert actual == expected, (f"Test {i} ({test['description']}) for pivot index faster failed. Expected:"
+                                f" {expected},ut got: {actual}")
 
 print("All tests passed!")
