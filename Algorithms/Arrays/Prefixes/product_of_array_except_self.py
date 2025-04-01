@@ -63,7 +63,33 @@ class Solution:
         return res
 
     def product_except_self_constant_space(self, nums: list[int]) -> list[int]:
+        """
+        I suppose since the output array does not count towards our space complexity we would want to use it to store
+        our data temporarily while we compute prefixes and suffixes.
 
+        We could declare our output array, then go through our input array and calculate prefixes, storing them in
+        the output array.
+
+        Then we could iterate through our input array backwards, calculating the suffixes along the way and altering
+        the output array.
+
+        Once we are done, we've essential used the same method but been more efficient with our space.
+        """
+        res = []
+
+        # Calculate prefixes
+        prefix_product = 1
+        for i in range(len(nums)):
+            res.append(prefix_product)
+            prefix_product *= nums[i]
+
+        # Calculate Suffix, then calculate the target product, then replace the current element in our output array.
+        suffix_product = 1
+        for j in reversed(range(len(nums))):
+            res[j] = res[j] * suffix_product
+            suffix_product *= nums[j]
+
+        return res
 
 solution = Solution()
 test_cases = [
@@ -88,15 +114,13 @@ for i, test in enumerate(test_cases, 1):
     nums = test["nums"]
     expected = test["expected"]
     actual = solution.product_except_self_with_extra_space(nums)
-    assert actual == expected, (f"Test {i} ({test['description']}) failed. Expected: "
-                                f"{expected}, but got: {actual}")
+    assert actual == expected, f"Test {i} ({test['description']}) failed. Expected: {expected}, but got: {actual}"
 
 for i, test in enumerate(test_cases, 1):
     nums = test["nums"]
     expected = test["expected"]
     actual = solution.product_except_self_constant_space(nums)
-    assert actual == expected, (f"Test {i} ({test['description']}) with constant space "
-                                f"failed. Expected: "
-                                f"{expected}, but got: {actual}")
+    assert actual == expected, (f"Test {i} ({test['description']}) with constant space failed. Expected: {expected}, "
+                                f"but got: {actual}")
 
 print("All tests passed!")
