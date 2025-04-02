@@ -22,6 +22,28 @@ The product of any subarray of nums is guaranteed to fit in a 32-bit integer.
 """
 class Solution:
     def max_product(self, nums: list[int]) -> int:
+        """
+        Notably we don't have to concern ourselves with the indices that make the subarray with the greatest product. We
+        only have to find what that product is and return it.
+
+        This is a bit similar to the max_subarray.py problem, but multiplication makes it a bit different since we can't
+        just discard negative numbers and move on (multiples of 2 negative numbers give us a greater product).
+
+        The contextual insights with multiplication is that once we encounter a 0 it essentially divides our array
+        into two subarrays since including a 0 will make our product 0.
+
+        Perhaps we iterate through our array, recording the prefix product in an array
+        """
+        res = float("-inf")
+        cur_min, cur_max = 1, 1
+
+        for n in nums:
+            tmp = n * cur_max
+            cur_max = max(tmp, n * cur_min, n)
+            cur_min = min (tmp, n * cur_min, n)
+            res = max(res, cur_max)
+
+        return res
 
 solution = Solution()
 
