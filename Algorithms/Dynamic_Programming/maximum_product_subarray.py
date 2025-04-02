@@ -20,6 +20,8 @@ Constraints:
 -10 <= nums[i] <= 10
 The product of any subarray of nums is guaranteed to fit in a 32-bit integer.
 """
+
+
 class Solution:
     def max_product(self, nums: list[int]) -> int:
         """
@@ -30,9 +32,14 @@ class Solution:
         just discard negative numbers and move on (multiples of 2 negative numbers give us a greater product).
 
         The contextual insights with multiplication is that once we encounter a 0 it essentially divides our array
-        into two subarrays since including a 0 will make our product 0.
+        into two sub-arrays since including a 0 will make our product 0.
 
-        Perhaps we iterate through our array, recording the prefix product in an array
+       The other key insight here is to keep track of the current max and min product as you move through the input
+       array.
+       This allows you to handle negative numbers very easily as they oscillate between a positive and negative product.
+
+       The other thing to consider is that the number you encounter by itself may be the largest (this is the case if
+       you run into a zero, or you start with a negative number - where both min and max are then negative).
         """
         res = float("-inf")
         cur_min, cur_max = 1, 1
@@ -40,10 +47,11 @@ class Solution:
         for n in nums:
             tmp = n * cur_max
             cur_max = max(tmp, n * cur_min, n)
-            cur_min = min (tmp, n * cur_min, n)
+            cur_min = min(tmp, n * cur_min, n)
             res = max(res, cur_max)
 
         return res
+
 
 solution = Solution()
 
@@ -54,8 +62,10 @@ test_cases = [
     {"nums": [-2, -3, 7], "expected": 42, "description": "Two negative numbers with a positive number"},
     {"nums": [-2, -3, 0, 7], "expected": 7, "description": "Two negative numbers with zero and a positive number"},
     {"nums": [2, 3, -2, 4, -1], "expected": 48, "description": "Mix of positive and negative numbers"},
-    {"nums": [-1, -3, -10, 0, 60], "expected": 60, "description": "Negative numbers with zero and a large positive number"},
-    {"nums": [-2, -3, 0, -2, -40], "expected": 80, "description": "Negative numbers with zero and a large negative number (2)"},
+    {"nums": [-1, -3, -10, 0, 60], "expected": 60,
+     "description": "Negative numbers with zero and a large positive number"},
+    {"nums": [-2, -3, 0, -2, -40], "expected": 80,
+     "description": "Negative numbers with zero and a large negative number (2)"},
     {"nums": [1, 2, 3, 4], "expected": 24, "description": "All positive numbers"},
     {"nums": [-1, -2, -3, -4], "expected": 24, "description": "All negative numbers"}
 ]
