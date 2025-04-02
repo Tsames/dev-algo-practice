@@ -27,7 +27,6 @@ Follow up: If you have figured out the O(n) solution, try coding another solutio
 the divide and conquer approach, which is more subtle.
 """
 
-
 class Solution:
     def maxSubArrayBrute(self, nums: list[int]) -> int:
         res = float("-inf")
@@ -57,7 +56,6 @@ class Solution:
             res = max(res, cur_sum)
 
         return res
-
 
 solution = Solution()
 
