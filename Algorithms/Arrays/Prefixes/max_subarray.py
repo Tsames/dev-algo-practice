@@ -59,52 +59,25 @@ class Solution:
 
 solution = Solution()
 
-# Test case 1: Mix of positive and negative numbers
-nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
-expected = 6
-actual = solution.maxSubArray(nums)
-assert actual == expected, f"Test 1 failed. Expected: {expected}, but got: {actual}"
+test_cases = [
+    {"nums": [-2, 1, -3, 4, -1, 2, 1, -5, 4], "expected": 6, "description": "Mix of positive and negative numbers"},
+    {"nums": [1], "expected": 1, "description": "Single element array"},
+    {"nums": [5, 4, -1, 7, 8], "expected": 23, "description": "Mostly positive numbers"},
+    {"nums": [-5, -4, -1, -7, -8], "expected": -1, "description": "All negative numbers"}
+]
 
-# Test case 2: Single element array
-nums = [1]
-expected = 1
-actual = solution.maxSubArray(nums)
-assert actual == expected, f"Test 2 failed. Expected: {expected}, but got: {actual}"
+# Test the optimized solution
+for i, test in enumerate(test_cases, 1):
+    nums = test["nums"]
+    expected = test["expected"]
+    actual = solution.maxSubArray(nums)
+    assert actual == expected, f"Test {i} ({test['description']}) failed. Expected: {expected}, but got: {actual}"
 
-# Test case 3: Mostly positive numbers
-nums = [5, 4, -1, 7, 8]
-expected = 23
-actual = solution.maxSubArray(nums)
-assert actual == expected, f"Test 3 failed. Expected: {expected}, but got: {actual}"
-
-# Test case 4: All negative numbers
-nums = [-5, -4, -1, -7, -8]
-expected = -1
-actual = solution.maxSubArray(nums)
-assert actual == expected, f"Test 4 failed. Expected: {expected}, but got: {actual}"
-
-# Test case 5: Mix of positive and negative numbers
-nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
-expected = 6
-actual = solution.maxSubArrayBrute(nums)
-assert actual == expected, f"Test 5 failed. Expected: {expected}, but got: {actual}"
-
-# Test case 6: Single element array
-nums = [1]
-expected = 1
-actual = solution.maxSubArrayBrute(nums)
-assert actual == expected, f"Test 6 failed. Expected: {expected}, but got: {actual}"
-
-# Test case 7: Mostly positive numbers
-nums = [5, 4, -1, 7, 8]
-expected = 23
-actual = solution.maxSubArrayBrute(nums)
-assert actual == expected, f"Test 7 failed. Expected: {expected}, but got: {actual}"
-
-# Test case 8: All negative numbers
-nums = [-5, -4, -1, -7, -8]
-expected = -1
-actual = solution.maxSubArrayBrute(nums)
-assert actual == expected, f"Test 8 failed. Expected: {expected}, but got: {actual}"
+# Test the brute force solution
+for i, test in enumerate(test_cases, 1):
+    nums = test["nums"]
+    expected = test["expected"]
+    actual = solution.maxSubArrayBrute(nums)
+    assert actual == expected, f"Test {i} ({test['description']}) with brute force failed. Expected: {expected}, but got: {actual}"
 
 print("All tests passed!")

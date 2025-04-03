@@ -93,33 +93,63 @@ matrix = [
     [1, 0, 3, 0, 5]
 ]
 
-solution = NumMatrix(matrix)
+test_cases = [
+    {
+        "matrix": matrix,
+        "queries": [(2, 1, 4, 3, 8)],
+        "description": "Example region from problem statement"
+    },
+    {
+        "matrix": matrix,
+        "queries": [(0, 0, 0, 0, 3)],
+        "description": "Single element region"
+    },
+    {
+        "matrix": matrix,
+        "queries": [(0, 0, 4, 4, 58)],
+        "description": "Entire matrix"
+    },
+    {
+        "matrix": matrix,
+        "queries": [(1, 0, 1, 4, 17)],
+        "description": "Single row"
+    },
+    {
+        "matrix": matrix,
+        "queries": [(0, 2, 4, 2, 7)],
+        "description": "Single column"
+    },
+    {
+        "matrix": matrix,
+        "queries": [(0, 0, 1, 1, 14)],
+        "description": "Top-left quadrant"
+    },
+    {
+        "matrix": matrix,
+        "queries": [(0, 3, 1, 4, 9)],
+        "description": "Top-right quadrant"
+    },
+    {
+        "matrix": matrix,
+        "queries": [(3, 0, 4, 1, 6)],
+        "description": "Bottom-left quadrant"
+    },
+    {
+        "matrix": matrix,
+        "queries": [(3, 3, 4, 4, 13)],
+        "description": "Bottom-right quadrant"
+    }
+]
 
-# Test 1: Original example from problem statement
-assert solution.sumregion(2, 1, 4, 3) == 8, "Test 1 Failed: Example region 1"
+for i, test in enumerate(test_cases, 1):
+    matrix = test["matrix"]
+    queries = test["queries"]
+    description = test["description"]
 
-# Test 2: Single element region
-assert solution.sumregion(0, 0, 0, 0) == 3, "Test 2 Failed: Single element"
+    solution = NumMatrix(matrix)
 
-# Test 3: Entire matrix
-assert solution.sumregion(0, 0, 4, 4) == 58, "Test 3 Failed: Entire matrix"
-
-# Test 4: Single row
-assert solution.sumregion(1, 0, 1, 4) == 17, "Test 4 Failed: Single row"
-
-# Test 5: Single column
-assert solution.sumregion(0, 2, 4, 2) == 7, "Test 5 Failed: Single column"
-
-# Test 6: Top-left quadrant
-assert solution.sumregion(0, 0, 1, 1) == 14, "Test 6 Failed: Top-left quadrant"
-
-# Test 7: Top-right quadrant
-assert solution.sumregion(0, 3, 1, 4) == 9, "Test 7 Failed: Top-right quadrant"
-
-# Test 8: Bottom-left quadrant
-assert solution.sumregion(3, 0, 4, 1) == 6, "Test 8 Failed: Bottom-left quadrant"
-
-# Test 9: Bottom-right quadrant
-assert solution.sumregion(3, 3, 4, 4) == 13, "Test 9 Failed: Bottom-right quadrant"
+    for j, (row1, col1, row2, col2, expected) in enumerate(queries, 1):
+        actual = solution.sumregion(row1, col1, row2, col2)
+        assert actual == expected, f"Test {i}.{j} ({description}) failed. Region [{row1}, {col1}, {row2}, {col2}] - Expected: {expected}, but got: {actual}"
 
 print("All tests passed!")
