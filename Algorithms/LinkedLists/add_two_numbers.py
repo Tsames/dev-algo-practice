@@ -22,7 +22,7 @@ Constraints:
 0 <= Node.val <= 9
 """
 from typing import Optional
-from Algorithms.LinkedLists.list_node import ListNode, createFromList
+from Algorithms.LinkedLists.linked_list_node import ListNode, create_linked_list
 
 class Solution:
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
@@ -62,5 +62,5 @@ class Solution:
         return dummy.next
                 
 solution = Solution()
-print(solution.addTwoNumbers(createFromList([1,2,3]), createFromList([4,5,6])))
-print(solution.addTwoNumbers(createFromList([9]), createFromList([9])))
+print(solution.addTwoNumbers(create_linked_list([1, 2, 3]), create_linked_list([4, 5, 6])))
+print(solution.addTwoNumbers(create_linked_list([9]), create_linked_list([9])))

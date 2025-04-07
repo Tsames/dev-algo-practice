@@ -1,4 +1,4 @@
-from Algorithms.LinkedLists.list_node import ListNode
+from Algorithms.LinkedLists.linked_list_node import ListNode
 
 """
 ❓ PROMPT
