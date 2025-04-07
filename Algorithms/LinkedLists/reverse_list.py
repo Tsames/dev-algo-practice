@@ -1,5 +1,6 @@
 """
 https://neetcode.io/problems/reverse-a-linked-list
+https://leetcode.com/problems/reverse-linked-list/description/
 
 Reverse a Linked List
 Given the beginning of a singly linked list head, reverse the list, and return the new beginning of the list.
@@ -19,7 +20,6 @@ Constraints:
 from typing import Optional
 from linked_list_node import ListNode, create_linked_list_from_list, compare_linked_lists
 
-
 class Solution:
     def reverse_linked_list(self, head: Optional[ListNode]) -> Optional[ListNode]:
         prev = None
@@ -31,7 +31,6 @@ class Solution:
             head = temp
 
         return prev
-
 
 solution = Solution()
 

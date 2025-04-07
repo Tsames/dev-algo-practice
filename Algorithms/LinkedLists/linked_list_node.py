@@ -16,7 +16,10 @@ class ListNode:
         return res
 
 
-def create_linked_list_from_list(nodes: list[int]) -> ListNode:
+def create_linked_list_from_list(nodes: list[int]) -> Optional[ListNode]:
+    if not nodes:
+        return None
+
     root = ListNode(nodes.pop(0))
     curr = root
 
