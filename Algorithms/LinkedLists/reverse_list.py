@@ -16,13 +16,12 @@ Constraints:
 0 <= The length of the list <= 1000.
 -1000 <= Node.val <= 1000
 """
-
 from typing import Optional
-from Algorithms.LinkedLists.list_node import ListNode, createFromList
+from linked_list_node import ListNode, create_linked_list_from_list, compare_linked_lists
 
 
 class Solution:
-    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+    def reverse_linked_list(self, head: Optional[ListNode]) -> Optional[ListNode]:
         prev = None
 
         while head:
@@ -35,4 +34,21 @@ class Solution:
 
 
 solution = Solution()
-print(solution.reverseList(createFromList([1, 2, 3, 4, 5])))
+
+test_cases = [
+    {"input": [0, 1, 2, 3], "expected": [3, 2, 1, 0], "description": "Example from problem statement"},
+    {"input": [], "expected": [], "description": "Empty list"},
+    {"input": [1], "expected": [1], "description": "Single element list"},
+    {"input": [1, 2], "expected": [2, 1], "description": "Two element list"},
+    {"input": [1, 2, 3, 4, 5], "expected": [5, 4, 3, 2, 1], "description": "Multiple elements list"}
+]
+
+for i, test in enumerate(test_cases, 1):
+    input_list = create_linked_list_from_list(test["input"])
+    expected_list = create_linked_list_from_list(test["expected"])
+    actual_list = solution.reverse_linked_list(input_list)
+    assert compare_linked_lists(expected_list, actual_list), (f"Test {i} ({test['description']}) failed. Expected:"
+                                                              f" {expected_list}, "
+                                                              f"but got: {actual_list}")
+
+print("All tests passed!")

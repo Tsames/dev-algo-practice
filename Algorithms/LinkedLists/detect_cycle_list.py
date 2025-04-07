@@ -25,7 +25,7 @@ Constraints:
 index is -1 or a valid index in the linked list.
 """
 from typing import Optional
-from Algorithms.LinkedLists.list_node import ListNode, createFromList
+from Algorithms.LinkedLists.linked_list_node import ListNode, create_linked_list_from_list
 
 class Solution:
     def hasCycle(self, head: Optional[ListNode]) -> bool:
@@ -59,8 +59,8 @@ class Solution:
 
     
 solution = Solution()
-cycleList = createFromList([1,2,3,4,5])
-nonCycleList = createFromList([1,2,3,4,5])
+cycleList = create_linked_list_from_list([1, 2, 3, 4, 5])
+nonCycleList = create_linked_list_from_list([1, 2, 3, 4, 5])
 
 tail = cycleList
 while tail.next:
