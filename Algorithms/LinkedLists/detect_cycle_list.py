@@ -1,5 +1,6 @@
 """
 https://neetcode.io/problems/linked-list-cycle-detection
+https://leetcode.com/problems/linked-list-cycle/description/
 
 Linked List Cycle Detection
 Given the beginning of a linked list head, return true if there is a cycle in the linked list. Otherwise, return false.
@@ -25,10 +26,10 @@ Constraints:
 index is -1 or a valid index in the linked list.
 """
 from typing import Optional
-from Algorithms.LinkedLists.linked_list_node import ListNode, create_linked_list_from_list
+from linked_list_node import ListNode, create_linked_list, create_cycle_list, compare_linked_lists
 
 class Solution:
-    def hasCycle(self, head: Optional[ListNode]) -> bool:
+    def has_cycle(self, head: Optional[ListNode]) -> bool:
         """
         O(n) time and space complexity
         """
@@ -42,7 +43,7 @@ class Solution:
         
         return False
     
-    def hasCycleBetter(self, head: Optional[ListNode]) -> bool:
+    def has_cycle_less_space(self, head: Optional[ListNode]) -> bool:
         """
         O(n) time and O(1) space complexity
         """        
@@ -56,20 +57,22 @@ class Solution:
         
         return False
 
-
-    
 solution = Solution()
-cycleList = create_linked_list_from_list([1, 2, 3, 4, 5])
-nonCycleList = create_linked_list_from_list([1, 2, 3, 4, 5])
 
-tail = cycleList
-while tail.next:
-    tail = tail.next
+test_cases = [
+    {"input": [1, 2, 3, 4], "index": 1, "expected": True, "description": "Cycle at index 1"},
+    {"input": [1, 2], "index": -1, "expected": False, "description": "No cycle"},
+    {"input": [1], "index": -1, "expected": False, "description": "Single element, no cycle"},
+    {"input": [1, 2, 3, 4, 5], "index": 0, "expected": True, "description": "Cycle at index 0"},
+    {"input": [1, 2, 3, 4, 5], "index": 4, "expected": True, "description": "Cycle at last element"}
+]
 
-tail.next = cycleList
+for i, test in enumerate(test_cases, 1):
+    input_list = create_cycle_list(test["input"], test["index"])
+    expected = test["expected"]
+    actual = solution.has_cycle(input_list)
+    assert actual == expected, f"Test {i} ({test['description']}) failed for has_cycle. Expected: {expected}, but got: {actual}"
+    actual = solution.has_cycle_less_space(input_list)
+    assert actual == expected, f"Test {i} ({test['description']}) failed for has_cycle_less_space. Expected: {expected}, but got: {actual}"
 
-print(solution.hasCycle(cycleList) == True)
-print(solution.hasCycle(nonCycleList) == False)
-
-print(solution.hasCycleBetter(cycleList) == True)
-print(solution.hasCycleBetter(nonCycleList) == False)
+print("All tests passed!")

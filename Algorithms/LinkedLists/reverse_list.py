@@ -18,7 +18,7 @@ Constraints:
 -1000 <= Node.val <= 1000
 """
 from typing import Optional
-from linked_list_node import ListNode, create_linked_list_from_list, compare_linked_lists
+from linked_list_node import ListNode, create_linked_list, compare_linked_lists
 
 class Solution:
     def reverse_linked_list(self, head: Optional[ListNode]) -> Optional[ListNode]:
@@ -43,8 +43,8 @@ test_cases = [
 ]
 
 for i, test in enumerate(test_cases, 1):
-    input_list = create_linked_list_from_list(test["input"])
-    expected_list = create_linked_list_from_list(test["expected"])
+    input_list = create_linked_list(test["input"])
+    expected_list = create_linked_list(test["expected"])
     actual_list = solution.reverse_linked_list(input_list)
     assert compare_linked_lists(expected_list, actual_list), (f"Test {i} ({test['description']}) failed. Expected:"
                                                               f" {expected_list}, "

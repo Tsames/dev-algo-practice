@@ -24,7 +24,7 @@ Constraints:
 0 <= The length of each list <= 100.
 -100 <= Node.val <= 100
 """
-from linked_list_node import ListNode, create_linked_list_from_list, compare_linked_lists
+from linked_list_node import ListNode, create_linked_list, compare_linked_lists
 from typing import Optional
 
 class Solution:
@@ -59,9 +59,9 @@ test_cases = [
 ]
 
 for i, test in enumerate(test_cases, 1):
-    list1 = create_linked_list_from_list(test["list1"])
-    list2 = create_linked_list_from_list(test["list2"])
-    expected_list = create_linked_list_from_list(test["expected"])
+    list1 = create_linked_list(test["list1"])
+    list2 = create_linked_list(test["list2"])
+    expected_list = create_linked_list(test["expected"])
     actual_list = solution.merge_two_sorted_lists(list1, list2)
     assert compare_linked_lists(expected_list, actual_list), (f"Test {i} ({test['description']}) failed. Expected:"
                                                               f" {expected_list}, "
