@@ -29,10 +29,13 @@ class Solution:
     def remove_nth_from_end(self, head: ListNode, n: int) -> ListNode:
         """
         The main issue in this problem is that we don't know the length of our input linked list upfront.
-        That means that we don't know when we are at the last nth node.
+        That means that we don't know when we are at the nth last node.
 
         Now we could count the number of nodes by iterating through our list once.
-        We could then know the number
+        We could then know the total number of nodes.
+        We then iterate through our input linked list until we get to the node before the last nth node,
+        starting from a dummy node to avoid an error in the case that our input list is a single node in length,
+        and then set the prior node's next value to be the nth node's next value.
         """
         linked_list_length = 0
         dummy = ListNode(None, head)
