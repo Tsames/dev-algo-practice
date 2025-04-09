@@ -1,4 +1,4 @@
-from Algorithms.LinkedLists.linked_list_node import ListNode
+from Algorithms.Linked_Lists.linked_list_node import ListNode
 
 """
 Given a linked list, return true if all its values are unique and false otherwise.

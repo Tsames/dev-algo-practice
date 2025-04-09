@@ -27,12 +27,34 @@ from linked_list_node import ListNode, create_linked_list, compare_linked_lists
 
 class Solution:
     def remove_nth_from_end(self, head: ListNode, n: int) -> ListNode:
+        """
+        The main issue in this problem is that we don't know the length of our input linked list upfront.
+        That means that we don't know when we are at the last nth node.
+
+        Now we could count the number of nodes by iterating through our list once.
+        We could then know the number
+        """
+        linked_list_length = 0
+        dummy = ListNode(None, head)
+        cur = head
+
+        while cur:
+            linked_list_length += 1
+            cur = cur.next
+
+        cur = dummy
+        while linked_list_length > n:
+            cur = cur.next
+            linked_list_length -= 1
+
+        cur.next = cur.next.next if cur.next else None
+        return dummy.next
 
 solution = Solution()
 
 test_cases = [
     {"input": [1, 2, 3, 4, 5], "n": 2, "expected": [1, 2, 3, 5], "description": "Remove 2nd node from end"},
-    {"input": [1], "n": 1, "expected": [], "description": "Single node list, remove the only node"},
+    {"input": [1], "n": 1, "expected": None, "description": "Single node list, remove the only node"},
     {"input": [1, 2], "n": 1, "expected": [1], "description": "Two nodes, remove last node"},
     {"input": [1, 2], "n": 2, "expected": [2], "description": "Two nodes, remove first node"},
     {"input": [1, 2, 3, 4, 5], "n": 5, "expected": [2, 3, 4, 5], "description": "Remove head node"},
