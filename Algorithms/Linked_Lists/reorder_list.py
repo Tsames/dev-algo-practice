@@ -73,7 +73,7 @@ def reorderLinkedList(root: ListNode) -> ListNode:
 
 
 
-from Algorithms.LinkedLists.linked_list_node import ListNode, create_linked_list
+from Algorithms.Linked_Lists.linked_list_node import ListNode, create_linked_list
 
 
 def reorder_with_linear_space(root: ListNode) -> ListNode:
