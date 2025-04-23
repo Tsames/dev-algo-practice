@@ -21,6 +21,7 @@ s1 and s2 consist of lowercase English letters.
 '''
 from collections import Counter
 
+
 class Solution:
     def check_inclusion(self, s1: str, s2: str) -> bool:
         '''
@@ -80,9 +81,48 @@ class Solution:
 
             if len(hash2) > len(s1):
 
+    def check_inclusion_faster(self, s1: str, s2: str) -> bool:
+        if len(s1) > len(s2): return False
 
+        # Mimic a hashmap that counts the number of occurrences of each lower case letter
+        # Using 0's for all letters that don't occur
+        countS1, countS2 = [0] * 26, [0] * 26
 
+        # Fill up our lists with the length of s1
+        # this will be our window that we shift
+        for i in range(len(s1)):
+            countS1[ord(s1[i]) - ord('a')] += 1
+            countS2[ord(s2[i]) - ord('a')] += 1
 
+        # Iterate 26 times, to figure out the starting match count between the two lists
+        matches = 0
+        for j in range(26):
+            matches += 1 if countS1[j] == countS2[j] else 0
+
+        # Iterate through s2, adjusting matches at each iteration
+        l = 0
+        for r in range(len(s1), len(s2)):
+            # If we ever find that matches = 26, then we return True. Otherwise, we return False.
+            # This is because our count of s2 is only for a window of size s1.
+            # So if the two arrays are equal, then they are anagrams.
+            if matches == 26: return True
+
+            # Next we adjust matches for the right index of the window
+            idx_right = ord(s2[r]) - ord('a')
+            countS2[idx_right] += 1
+            # If they are equal we know we just found a new match
+            if countS2[idx_right] == countS1[idx_right]: matches += 1
+            # If they are within one, we know we just removed a match that was previously there
+            elif countS1[idx_right] + 1 == countS2[idx_right]: matches -= 1
+
+            # Then adjust matches for the left index of the window using the same logic
+            idx_left = ord(s2[l]) - ord('a')
+            countS2[idx_left] -= 1
+            if countS2[idx_left] == countS1[idx_left]: matches += 1
+            elif countS1[idx_left] + 1 == countS2[idx_left]: matches -= 1
+
+        # If we get all the way through our loop, there are no matches
+        return False
 
 
 
