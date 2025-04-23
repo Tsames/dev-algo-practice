@@ -20,7 +20,6 @@ Constraints:
 s1 and s2 consist of lowercase English letters.
 '''
 
-
 class Solution:
     def check_inclusion(self, s1: str, s2: str) -> bool:
         if len(s1) > len(s2): return False
@@ -38,9 +37,8 @@ class Solution:
         # Iterate 26 times, to figure out the starting match count between the two lists
         matches = 0
         for j in range(26):
-            matches += 1 if countS1[j] == countS2[j] else 0
+            matches += (1 if countS1[j] == countS2[j] else 0)
 
-        print(f"Matches is {matches} before adjustment")
         # Iterate through s2, adjusting matches at each iteration
         l = 0
         for r in range(len(s1), len(s2)):
@@ -50,32 +48,27 @@ class Solution:
             if matches == 26: return True
 
             # Next we adjust matches for the right index of the window
-            idx_right = ord(s2[r]) - ord('a')
-            countS2[idx_right] += 1
+            idx = ord(s2[r]) - ord('a')
+            countS2[idx] += 1
             # If they are equal we know we just found a new match
-            if countS2[idx_right] == countS1[idx_right]:
+            if countS2[idx] == countS1[idx]:
                 matches += 1
             # If they are within one, we know we just removed a match that was previously there
-            elif countS1[idx_right] + 1 == countS2[idx_right]:
+            elif countS1[idx] + 1 == countS2[idx]:
                 matches -= 1
 
             # Then adjust matches for the left index of the window using the same logic
-            idx_left = ord(s2[l]) - ord('a')
-            countS2[idx_left] -= 1
-            if countS2[idx_left] == countS1[idx_left]:
+            idx = ord(s2[l]) - ord('a')
+            countS2[idx] -= 1
+            if countS2[idx] == countS1[idx]:
                 matches += 1
-            elif countS1[idx_left] + 1 == countS2[idx_left]:
+            elif countS1[idx] - 1 == countS2[idx]:
                 matches -= 1
 
             l += 1
 
-        print(f"s1 count is:  {countS1}")
-        print(f"s2 count is: {countS2}")
-        print(f"matches is: {matches}")
-
         # If we get all the way through our loop, the last iteration might have got us to 26 matches
         return matches == 26
-
 
 solution = Solution()
 
