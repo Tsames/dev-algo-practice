@@ -91,6 +91,44 @@ class Solution:
         dfs(root)
         return res
 
+    def path_sum_faster(self, root: TreeNode, targetSum: int) -> int:
+        """
+        Can we improve this algo by using a hashmap to hold our prefixes rather than a list?
+
+        I think we could. The part of the previous algo attempt that slows it down is looping through our prefix array.
+        What we really want to know at any given node is if there is a prefix that is equal to the difference between
+        the current sum and targetSum.
+        If we stored and removed our prefixes from a hashmap, we could improve our time complexity without
+        sacrificing space complexity.
+        """
+        if not root: return 0
+
+        res = 0
+        # Initialize path with a count of 0 of 1. This makes the calculation in our dfs for the entirety of the path
+        # possible without adjusting the logic.
+        path = {0: 1}
+
+        # Add a total variable to keep a running total
+        def dfs(root: TreeNode, total):
+            nonlocal res
+            total = total + root.val
+
+            path[total] = 1 + path.get(total, 0)
+
+            # Check if there is a prefix in our current path that is equal to the difference between
+            # total and targetSum, if there is, there is a path ending in the current node that satisfies our conditions
+            if total - targetSum in path:
+                res += 1
+
+            if root.left: dfs(root.left, total)
+
+            if root.right: dfs(root.right, total)
+
+            path[total] -= 1
+
+        dfs(root, 0)
+        return res
+
 
 solution = Solution()
 
@@ -141,6 +179,13 @@ test_cases = [
 
 for i, test in enumerate(test_cases, 1):
     result = solution.path_sum(test["root"], test["targetSum"])
+    assert result == test["expected"], (
+        f"Test {i} ({test['description']}) failed. "
+        f"Expected {test['expected']}, but got {result}"
+    )
+
+for i, test in enumerate(test_cases, 1):
+    result = solution.path_sum_faster(test["root"], test["targetSum"])
     assert result == test["expected"], (
         f"Test {i} ({test['description']}) failed. "
         f"Expected {test['expected']}, but got {result}"
