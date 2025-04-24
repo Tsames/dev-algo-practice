@@ -36,8 +36,8 @@ class Solution:
         res = []
         path = []
 
-        def dfs(root: Node):
-            path.append(root.value)
+        def dfs(root: TreeNode):
+            path.append(root.val)
             if root.left == None and root.right == None:
                 if sum(path) == targetSum:
                     res.append(path.copy())
