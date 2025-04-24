@@ -2,7 +2,8 @@
 https://leetcode.com/problems/path-sum-ii/description/
 
 113. Path Sum II
-Given the root of a binary tree and an integer targetSum, return all root-to-leaf paths where the sum of the node values in the path equals targetSum. Each path should be returned as a list of the node values, not node references.
+Given the root of a binary tree and an integer targetSum, return all root-to-leaf paths where the sum of the node
+values in the path equals targetSum. Each path should be returned as a list of the node values, not node references.
 A root-to-leaf path is a path starting from the root and ending at any leaf node. A leaf is a node with no children.
 
 Example 1:
@@ -27,10 +28,31 @@ The number of nodes in the tree is in the range [0, 5000].
 """
 from binary_tree import TreeNode, createFromList
 
+
 class Solution:
     def path_sum(self, root: TreeNode, targetSum: int) -> list[list[int]]:
-        return []
+        if not root: return []
 
+        res = []
+        path = []
+
+        def dfs(root: Node):
+            path.append(root.value)
+            if root.left == None and root.right == None:
+                if sum(path) == targetSum:
+                    res.append(path.copy())
+                return
+
+            if root.left != None:
+                dfs(root.left)
+                path.pop()
+
+            if root.right != None:
+                dfs(root.right)
+                path.pop()
+
+        dfs(root)
+        return res
 
 solution = Solution()
 
