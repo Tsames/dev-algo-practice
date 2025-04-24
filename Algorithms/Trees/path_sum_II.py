@@ -31,6 +31,47 @@ from binary_tree import TreeNode, createFromList
 
 class Solution:
     def path_sum(self, root: TreeNode, targetSum: int) -> list[list[int]]:
+        '''
+        Assumptions/Constraints/Edge Cases:
+        - Can be given a root value that is null
+        - Could also be given a binary tree that is just a single node
+        - Not guaranteed that there is a single path that satisfies the sum condition (return empty list)
+
+        - Need to return all root-to-leaf paths that sum to the targetSum
+        - Cannot return a path that ends at a node that is not a leaf
+
+        Thinking depth first search in general because we are loooking for paths to leaf nodes.
+        If we used breadth first search, we wouldn't be traversing along paths like these. We would be traversing the
+        tree level by level, which doesn't help us for this algo.
+
+        Outline:
+
+        If root is null, then return [] (edge case)
+
+        We want an outter function that decalres a result list, this will hold all other paths that we find and be
+        our return
+        output
+
+        We declare a list our dfs sub-algo will be using to determine if it satisfies the summing condition. (We'll
+        append
+        and pop to and from as we go through our dfs) path
+
+        We want to define a dfs,
+            I believe, append to path
+
+            if we hit a leaf node, we want to do our calculation, and potentially append to res (copy of path)
+
+            if the node we're visiting is null, then return
+
+            if left child exist, call dfs on left
+            pop the last element off of path
+
+            if right child exists, call dfs on right
+            pop the last element off of path
+
+        dfs(root)
+        return res
+        '''
         if not root: return []
 
         res = []
@@ -53,6 +94,7 @@ class Solution:
 
         dfs(root)
         return res
+
 
 solution = Solution()
 
