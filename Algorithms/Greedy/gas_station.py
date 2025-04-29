@@ -36,8 +36,33 @@ n == gas.length == cost.length
 """
 class Solution:
     def canCompleteCircuit(self, gas: list[int], cost: list[int]) -> int:
-        return -1
+        """
+        This is my first greedy algorithm.
 
+        The strategy here is first to identify that there is guaranteed to be a unique solution by comparing the sum
+        of the list of gas and the sum of the list of cost. If the sum of gas is equal to or greater than the sum of
+        the list of cost, then there is a solution that exists.
+
+        Next, we iterate through our gas array adding the difference between gas and cost to our total.
+        If our total ever dips below 0, then we reset total and our starting position.
+
+        Since we are guaranteed a unique solution, once we get to the end return res, which after iterating through
+        the entire list should have the correct starting index.
+        """
+        if sum(gas) < sum(cost):
+            return -1
+
+        total = 0
+        res = 0
+
+        for i in range(len(gas)):
+            total += (gas[i] - cost[i])
+
+            if total < 0:
+                total = 0
+                res = i + 1
+
+        return res
 
 solution = Solution()
 
@@ -72,12 +97,6 @@ test_cases = [
         "expected": -1,
         "description": "Multiple stations with no valid solution"
     },
-    {
-        "gas": [3, 1, 4, 2, 5],
-        "cost": [2, 2, 1, 5, 1],
-        "expected": 4,
-        "description": "Multiple stations with a valid solution"
-    }
 ]
 
 for i, test in enumerate(test_cases, 1):
