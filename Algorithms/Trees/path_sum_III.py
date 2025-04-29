@@ -23,7 +23,6 @@ The number of nodes in the tree is in the range [0, 1000].
 """
 from binary_tree import TreeNode, createFromList
 
-
 class Solution:
     def path_sum(self, root: TreeNode, targetSum: int) -> int:
         """
