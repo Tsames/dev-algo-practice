@@ -32,12 +32,68 @@ Constraints:
 tasks[i] is an uppercase English letter.
 0 <= n <= 100
 """
+import heapq as hq
+from collections import Counter, deque
 
 
 class Solution:
     def least_interval(self, tasks: list[str], n: int) -> int:
-        # Todo
-        return 0
+        """
+        Okay, we need n intervals before completing a task of the same type.
+        This means that tasks of the same type slow us down the most.
+        If we had an array of distinct CPU tasks we could process them in m intervals, where m is the length of our
+        input array n.
+
+        It seems like the dominant strategy to get the fewest number of intervals needs to be leading with the task
+        whose count in tasks is the highest. We then need to fill the intervals that would otherwise be idle with
+        other distinct tasks, preferably leading with other tasks whose count is the highest to minimize the number
+        of idle intervals.
+
+        So the algorithm would go something like this:
+        At each iteration choose the task with the highest remaining count
+        Any task that we choose here must be available (meaning it's been n intervals since the last time we processed
+        the same task).
+
+        To do this we need to know how long it's been since the previous time this task has been chosen (not sure how
+        best to keep track of this).
+        We also need to know the count (thinking hash map for this initially).
+
+        Since we are returning the minimum time, we don't actually care about which task is which, so long as we
+        don't process the same task before n intervals have passed.
+
+        We can use a max heap to keep track of the count of each task.
+        We could use a queue of tuples to keep track of the count and the time it is available again.
+        """
+        # Create a max heap containing the counts of all distinct tasks
+        count = Counter(tasks)
+        max_heap = [-c for c in count.values()]
+        hq.heapify(max_heap)
+
+        q = deque()
+        time = 0
+
+        while max_heap or q:
+            time += 1
+            # print(f"Iteration {time}")
+            # print(f"\tMax Heap is {max_heap} and queue is {q}.")
+
+            # First check if the element in queue can be put back in the max heap
+            # Aka, there is an element in the queue, and the first element's first index is equal to the time
+            if q and q[0][1] < time:
+                ready = q.popleft()
+                # print(f"\tPopping from queue! ({ready[0]}, {ready[1]})")
+                hq.heappush(max_heap, ready[0])
+
+            # If there are tasks in the max_heap, then take them out, increment the negative count, and put in the
+            # queue.
+            if max_heap:
+                next_task = hq.heappop(max_heap) + 1
+                # print(f"\tPulling from max heap! {next_task - 1}")
+                if next_task < 0:
+                    # print(f"\tAdding to queue! ({next_task}, {time + n})")
+                    q.append((next_task, time + n))
+
+        return time
 
 
 solution = Solution()
@@ -82,7 +138,7 @@ test_cases = [
     {
         "tasks": ["A", "A", "A", "B", "B", "B", "C", "C", "D", "D"],
         "n": 2,
-        "expected": 12,
+        "expected": 10,
         "description": "Tasks with multiple frequencies and a cooling interval of 2"
     }
 ]
