@@ -34,12 +34,48 @@ Constraints:
 1 <= sticks.length <= 104
 1 <= sticks[i] <= 104
 """
-
+from heapq import heapify, heappop, heappush
 
 class Solution:
     def connect_sticks(self, sticks: list[int]) -> int:
-        #Todo
-        return 0
+        """
+        The examples are leading me to believe that the method that you ensure the minimum cost to connect sticks is
+        by connecting the smallest stick together to create the smallest cost at each decision point.
+
+        That makes some intuitive sense as you want to come up with the smallest total cost.
+        The way to get the smallest total cost is to combine the smallest individual costs together.
+
+        So if we believe that, then our problem becomes find the two smallest sticks (combined or not) and combine
+        them together.
+
+        It doesn't seem like we can do this easily without extra space.
+        Without extra space, we would have to iterate through or list to find the next smallest stick each time.
+        We would also have to have some method of removing sticks we've already combined and inserting new combined
+        sticks.
+
+        Since we are always looking for the minimum stick, it makes me think that a min heap would be useful here.
+        We could create a min heap from our input list.
+        We could pop from the heap to combine the smallest sticks each time.
+        Then we could add back the combined stick to the heap.
+        Once the min heap is of length 1, we could return the cost which we would keep track of with an outside
+        variable.
+
+        Cost to initially heapify: O(n)
+        Cost to pop from the heap: O(log n)
+        Cost to add to the heap: O(log n)
+
+        O(n + n * 2log(n)) -> O(n * log(n))
+        """
+        heapify(sticks)
+        cost = 0
+
+        while len(sticks) > 1:
+            smallest_combined_stick = heappop(sticks) + heappop(sticks)
+            cost += smallest_combined_stick
+            heappush(sticks, smallest_combined_stick)
+
+        return cost
+
 
 solution = Solution()
 
@@ -84,4 +120,3 @@ for i, test in enumerate(test_cases, 1):
     )
 
 print("All tests passed!")
-
