@@ -91,6 +91,21 @@ class Solution:
 
         return jump >= len(nums) - 1
 
+    def alternative_can_jump(self, nums: list[int]) -> bool:
+        """
+        Alternative solution where we move the goal back from the last position in our input list to an earlier
+        position that still allows us to get to the end.
+
+        If our goal is the starting position by the end, we know there is some solution.
+        """
+        goal = len(nums) - 1
+
+        for i in range(len(nums) - 1, -1, -1):
+            if i + nums[i] >= goal:
+                goal = i
+
+        return goal == 0
+
 
 solution = Solution()
 
@@ -129,6 +144,13 @@ test_cases = [
 
 for i, test in enumerate(test_cases, 1):
     result = solution.can_jump(test["nums"])
+    assert result == test["expected"], (
+        f"Test {i} ({test['description']}) failed. "
+        f"Expected {test['expected']}, but got {result}"
+    )
+
+for i, test in enumerate(test_cases, 1):
+    result = solution.alternative_can_jump(test["nums"])
     assert result == test["expected"], (
         f"Test {i} ({test['description']}) failed. "
         f"Expected {test['expected']}, but got {result}"
