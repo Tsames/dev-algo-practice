@@ -36,6 +36,7 @@ Constraints:
 """
 from heapq import heapify, heappop, heappush
 
+
 class Solution:
     def connect_sticks(self, sticks: list[int]) -> int:
         """
