@@ -18,9 +18,9 @@ Input -> Output
 
 fun isThisATriangle(a: Int, b: Int, c: Int): Boolean {
     // We use the Triangle Inequality Theorem
-    if (a + b < c) return false
-    if (a + c < b) return false
-    if (b + c < a) return false
+    if (a + b <= c) return false
+    if (a + c <= b) return false
+    if (b + c <= a) return false
     return true
 }
 
