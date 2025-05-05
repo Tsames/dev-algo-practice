@@ -14,8 +14,26 @@ For the given example, the return value should be:
  */
 
 fun multiplicationTable(size: Int): Array<IntArray> {
-    // TODO
-    return arrayOf(intArrayOf(0))
+    /*
+     We know that the first IntArray in our return Array will be all natural numbers (excluding 0) up to and including size
+     We also know that the 0th index of each IntArray after that will be its index in the return Array plus 1.
+
+     We can create our return Array first.
+     Then we can loop through once and fill our unique first IntArray with 1..size.
+     Then we can loop through the rest of the IntArrays and fill them with the first IntArray multiplied by their index + 1.
+     */
+    val table = Array(size) { IntArray(size) }
+    for (i in 1..size) {
+        table[0][i - 1] = i
+    }
+
+    for (i in 1 until size) {
+        for (j in 0 until size) {
+            table[i][j] = table[0][j] * (i + 1)
+        }
+    }
+
+    return table
 }
 
 data class MultiplicationTableTestCase(
