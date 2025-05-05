@@ -36,6 +36,18 @@ fun multiplicationTable(size: Int): Array<IntArray> {
     return table
 }
 
+/*
+ In Kotlin you can use an '=' sign for a single-expression function
+ The return type doesn't need to be specified if it can be inferred
+ If It did need to be explicitly typed it would look like this:
+    fun multiplicationTableElegant(size: Int): Array<IntArray> = Array(size)
+
+ This syntax also demonstrates trailing lambda syntax, where if a lambda is the last parameter of a function, you can place it outside of the parentheses
+ */
+fun multiplicationTableElegant(size: Int) = Array<IntArray>(size) {
+   i -> (1..size).map { it * (i + 1) }.toIntArray()
+}
+
 data class MultiplicationTableTestCase(
     val size: Int,
     val expected: Array<IntArray>,
@@ -75,6 +87,11 @@ fun main() {
         val result = multiplicationTable(testCase.size)
         assert(result.contentDeepEquals(testCase.expected)) {
             "Test ${index + 1} (${testCase.description}) failed. Expected ${testCase.expected.contentDeepToString()}, but got ${result.contentDeepToString()}"
+        }
+        val resultElegant = multiplicationTableElegant(testCase.size)
+        assert(resultElegant.contentDeepEquals(testCase.expected)) {
+            "Test ${index + 1} (${testCase.description}) failed. Expected ${testCase.expected.contentDeepToString()}," +
+                    " but got ${resultElegant.contentDeepToString()}"
         }
     }
 
