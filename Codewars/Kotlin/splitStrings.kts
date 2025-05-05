@@ -11,8 +11,9 @@ Examples:
 */
 
 fun splitStrings(s: String): List<String> {
-    //Todo
-    return listof()
+    val adjustedString = if (s.length % 2 == 1) s + "_" else s
+    // We learned the chunked function from the Kotlin standard library here
+    return adjustedString.chunked(2)
 }
 
 data class SplitStringsTestCase(
