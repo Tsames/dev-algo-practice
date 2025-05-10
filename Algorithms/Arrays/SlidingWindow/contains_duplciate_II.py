@@ -24,8 +24,18 @@ Constraints:
 
 class Solution:
     def containsNearbyDuplciate(self, nums: list[int], k:int) -> bool:
-        #todo
-        return True
+        """
+        We are looking for two numbers that are equal to each other within our input list.
+        We have the additional condition that the difference between these indices is smaller than k.
+
+        This means our second index can be up to k larger than the first index.
+        This means that numbers that we consider for duplicates must be within a window of size k.
+
+        We could use a hash map to store the values that we have seen.
+        We could use two pointers, l and r, to represent our sliding window.
+        We could add and remove values from our hashmap as we move our window along.
+        """
+
 
 solution = Solution()
 
