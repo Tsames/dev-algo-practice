@@ -19,8 +19,47 @@ Note that brackets may be round, square or curly and can also be nested. Index a
  */
 
 fun moleculeToAtom(formula: String): Map<String, Int> {
-    //TODO
-    return mapOf()
+    val stack = mutableListOf<MutableMap<String, Int>>()
+    var currentMap = mutableMapOf<String, Int>()
+    var i = 0
+
+    while (i < formula.length) {
+        when (val char = formula[i]) {
+            in 'A'..'Z' -> { // Start of an atom
+                val atom = buildString {
+                    append(char)
+                    if (i + 1 < formula.length && formula[i + 1] in 'a'..'z') {
+                        append(formula[++i])
+                    }
+                }
+                val count = parseNumber(formula, i + 1).also { i += it.second }
+                currentMap[atom] = currentMap.getOrDefault(atom, 0) + count.first
+            }
+            '(', '[', '{' -> { // Opening bracket
+                stack.add(currentMap)
+                currentMap = mutableMapOf()
+            }
+            ')', ']', '}' -> { // Closing bracket
+                val multiplier = parseNumber(formula, i + 1).also { i += it.second }.first
+                val poppedMap = stack.removeAt(stack.lastIndex)
+                currentMap.forEach { (atom, count) ->
+                    poppedMap[atom] = poppedMap.getOrDefault(atom, 0) + count * multiplier
+                }
+                currentMap = poppedMap
+            }
+            in '0'..'9' -> throw IllegalArgumentException("Invalid formula: unexpected number at position $i")
+        }
+        i++
+    }
+
+    return currentMap
+}
+
+fun parseNumber(formula: String, start: Int): Pair<Int, Int> {
+    if (start >= formula.length || formula[start] !in '0'..'9') return Pair(1, 0)
+    var i = start
+    while (i < formula.length && formula[i] in '0'..'9') i++
+    return Pair(formula.substring(start, i).toInt(), i - start)
 }
 
 val testCases = listOf(
