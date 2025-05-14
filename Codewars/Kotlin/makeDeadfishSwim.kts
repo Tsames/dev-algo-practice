@@ -19,7 +19,19 @@ Program "iiisdosodddddiso" should return numbers [8, 64, 3600].
  */
 
 fun parse(data: String): List<Int> {
-    return listOf()
+    val result = mutableListOf<Int>()
+    var value = 0
+
+    for (char in data) {
+        when (char) {
+            'i' -> value++
+            'd' -> value--
+            's' -> value *= value
+            'o' -> result.add(value)
+        }
+    }
+
+    return result
 }
 
 val testCases = listOf(
