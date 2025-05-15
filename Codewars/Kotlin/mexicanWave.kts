@@ -28,6 +28,14 @@ fun wave(str: String): List<String> {
     }
 }
 
+/*
+str.indicies gives us a range of appropriate indicies
+map transforms each index into an element in our transformed list
+it now refers to the index it is mapping in each iteration
+first we take the first up to our index
+then we tack on the last part of the string, capitalizing the first letter, which is our index
+ */
+fun waveAlternative(str: String): List<String> = str.indices.map { str.take(it) + str.drop(it).capitalize() }.filter { it != str }
 
 data class TestCase(
     val input: String,
