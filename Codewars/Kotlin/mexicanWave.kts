@@ -18,9 +18,14 @@ Examples
 Good luck and enjoy!
  */
 
+/*
+Learning mapIndex from Mumbling last time, we used a variation of the mapIndex method
+This time using mapIndexeedNotNull to exclude nulls as the result of our transform
+ */
 fun wave(str: String): List<String> {
-    //TODO
-    return listOf<String>()
+    return str.mapIndexedNotNull{i, c ->
+        if (c.isLetter()) str.substring(0, i) + c.uppercase() + str.substring(i + 1) else null
+    }
 }
 
 
@@ -45,8 +50,9 @@ val testCases = listOf(
 
 for ((index, testCase) in testCases.withIndex()) {
     val result = wave(testCase.input)
-    assert(result == testCase.expected) {
-        "Test ${index + 1} (${testCase.description}) failed. Expected ${testCase.expected}, but got $result"
+    if (result == testCase.expected) {
+        throw AssertionError("Test ${index + 1} (${testCase.description}) failed. Expected ${testCase
+            .expected}, but got $result")
     }
 }
 
