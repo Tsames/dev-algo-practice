@@ -47,7 +47,11 @@ fun moleculeToAtom(formula: String): Map<String, Int> {
                 }
                 currentMap = poppedMap
             }
-            in '0'..'9' -> throw IllegalArgumentException("Invalid formula: unexpected number at position $i")
+            else -> {
+               throw IllegalArgumentException(
+                   "Invalid formula: unexpected number" + " at position $i"
+               )
+           }
         }
         i++
     }
