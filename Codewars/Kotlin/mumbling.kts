@@ -29,9 +29,16 @@ fun accum(s:String): String {
     return res.toString().dropLast(1)
 }
 
+/*
+This solution that was submitted on Codewars is pretty clever and takes advantage of Kotlin
+methods I didn't know were available.
+First of all they use the mapIndex to include both the index in the String s and the value at
+that index.
+This creates an array of strings in the format we want.
+Then we just join the array with a "-" in between each element.
+ */
 fun elegantAccum(s:String): String {
-    //TODO
-    return ""
+    return s.mapIndexed { i, c -> c.uppercase() + c.lowercase().toString().repeat(i) }.joinToString("-")
 }
 
 data class TestCase(
@@ -54,10 +61,10 @@ for ((index, testCase) in testCases.withIndex()) {
     assert(result == testCase.expected) {
         "Test ${index + 1} (${testCase.description}) failed. Expected \"${testCase.expected}\", but got \"$result\""
     }
-//    result = elegantAccum(testCase.input)
-//    assert(result == testCase.expected) {
-//        "Test ${index + 1} (${testCase.description}) failed. Expected \"${testCase.expected}\", but got \"$result\""
-//    }
+    result = elegantAccum(testCase.input)
+    assert(result == testCase.expected) {
+        "Test ${index + 1} (${testCase.description}) failed. Expected \"${testCase.expected}\", but got \"$result\""
+    }
 }
 
 println("All tests passed!")
