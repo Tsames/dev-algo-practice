@@ -10,9 +10,23 @@ accum("cwAt") -> "C-Ww-Aaa-Tttt"
 The parameter of accum is a string which includes only letters from a..z and A..Z.
  */
 
+// Learned about the StringBuilder class in Kotlin
+// Don't forget to cast it back to a String in the end.
+
+// Don't forget that ranges in Kotlin are inclusive at the start and exclusive at the end.
+// If you did not want to include the final element, you would use the until function.
+// i in 1..5 -> 1, 2, 3, 4, 5
+// For example, i in 1 until 5 -> 1, 2, 3, 4
 fun accum(s:String): String {
-    // TODO
-    return ""
+    val res = StringBuilder("")
+    for((index, value) in s.withIndex()) {
+        res.append(value.uppercase())
+        for (i in 1..index) {
+            res.append(value.lowercase())
+        }
+        res.append("-")
+    }
+    return res.toString().dropLast(1)
 }
 
 fun elegantAccum(s:String): String {
