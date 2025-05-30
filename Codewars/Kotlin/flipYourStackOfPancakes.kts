@@ -108,6 +108,35 @@ fun flipPancakes(stack: MutableList<Int>): MutableList<Int> {
     return res
 }
 
+fun alternativeFlipPancakes(stack: MutableList<Int>): MutableList<Int> {
+    val flips = mutableListOf<Int>()
+    val pancakes = stack.toMutableList()
+
+    for (index in stack.size - 1 downTo 1) {
+        val maxIndex = findMaxIndex(pancakes)
+        if (maxIndex != index) {
+            if (maxIndex > 0) {
+                flips += maxIndex
+                pancakes.subList(0, maxIndex + 1).reverse()
+            }
+            flips += index
+            pancakes.reverse()
+        }
+        pancakes.removeAt(index)
+    }
+    return flips
+}
+
+private fun findMaxIndex(stack: List<Int>): Int {
+    var maxIndex = 0
+    for (i in 1 until stack.size) {
+        if (stack[i] > stack[maxIndex]) {
+            maxIndex = i
+        }
+    }
+    return maxIndex
+}
+
 data class TestCase(
     val input: MutableList<Int>,
     val expected: List<Int>,
