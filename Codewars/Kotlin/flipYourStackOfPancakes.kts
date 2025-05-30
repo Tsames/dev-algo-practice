@@ -29,12 +29,83 @@ You don't have to find the shortest sequence of flips. That is a hard problem - 
 If two consecutive flips leave the stack in the same state, they should be omitted.
 For example, [2,3,2,2,1] also arranges [1,5,8,3] correctly, but 2,2 is unnecessary.
 Flipping only the top pancake doesn't achieve anything.
-Performance should not be a issue. If Pat can flip 1,000 pancakes with diameters between 1 and 1,000, he thinks he can get a job!
+Performance should not be an issue. If Pat can flip 1,000 pancakes with diameters between 1 and
+1,000, he thinks he can get a job!
  */
 
+import java.util.Collections
+import java.util.PriorityQueue
+
 fun flipPancakes(stack: MutableList<Int>): MutableList<Int> {
-    //TODO
-    return mutableListOf()
+    /*
+    Okay, lets see what our strategy should be.
+    We do not need our algorithm to be all that efficient.
+    We just want it to resolve in a sequence of flips that does get us the desired output.
+
+    Important to note here that a flip is at a particular index.
+    Unlike flipping the value of two indexes, a flip here is flipping the entirety of the list
+    from the 0th index to the given index.
+
+    So in this problem its far less important to identify the fewest flips needed to order the
+    pancakes from smallest to largest than it is to just identify some sequence of flips that
+    achieves the desired order.
+
+    So what flipping algorithm can we come up with the eventually yields the order that we want?
+    It might be helpful to have some data structure that allows us to know what the largest
+    element is.
+    If we had this, we could proceed from the back of the list, once we find the largest element
+    that is not in the correct position we could flip it into the first position, then flip it
+    again at the desired index.
+    We would likely want to use a max heap data structure, so that we can identify the biggest
+    element that is not yet in the correct position.
+    We would use pointers to proceed through the list choosing where to flip our elements.
+     */
+    val res = mutableListOf<Int>()
+
+    // Create and fill our maxHeap
+    val maxHeap = PriorityQueue<Int>(Collections.reverseOrder())
+    maxHeap.addAll(stack)
+
+    // Declare our pointers
+    var right = stack.size - 1
+    var flip: Int
+
+    // We proceed from the end of the list
+    while (right > 0) {
+        println("Flipping for index $right")
+        // If the right pointer is already at the largest element left on our heap, continue
+        if (stack[right] != maxHeap.peek()) {
+
+            // Otherwise, use our flip pointer to find the index of our next largest element.
+            flip = right
+            do {
+                flip--
+            } while (stack[flip] != maxHeap.peek() && flip >= 0)
+
+            println("Found our largest element ${maxHeap.peek()} @ index $flip(${stack[flip]})")
+
+            // Now we flip our stack so the largest element is at the beginning
+            println("Before flipping our stack looks like this: $stack")
+
+            // Don't flip the 0th index with itself. Unnecessary flip.
+            if (flip != 0) {
+                stack.subList(0, flip + 1).reverse()
+                res.add(flip)
+                println("After flipping from index $flip we get: $stack")
+            }
+
+            // Then flip once more from right to get the largest element in the desired position
+            stack.subList(0, right + 1).reverse()
+            res.add(right)
+            println("After flipping from the desired index $right we get: $stack")
+        }
+
+        println()
+        right--
+        maxHeap.poll()
+    }
+
+    return res
 }
 
 data class TestCase(
@@ -74,7 +145,8 @@ val testCases = listOf(
 for ((index, case) in testCases.withIndex()) {
     val result = flipPancakes(case.input)
     if (result != case.expected) {
-        throw AssertionError("Test $index (${case.description}) failed. Expected ${case.expected} but got " +
+        throw AssertionError("Test ${index + 1} (${case.description}) failed. Expected ${case
+            .expected} but got " +
                 "$result.")
     }
 }
