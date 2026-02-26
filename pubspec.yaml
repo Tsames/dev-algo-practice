@@ -1,0 +1,5 @@
+name: dev_algo_practice
+environment:
+  sdk: ^3.0.0
+dependencies:
+  test: ^1.29.0
