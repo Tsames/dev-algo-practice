@@ -49,8 +49,16 @@ class GraphConverter {
 
   const GraphConverter({required this.vertexList, required this.edgeList});
 
-  //   (Map<string, int>, Array<Array<int>>) GraphConverter::getAsAdjacencyMatrix()
-  //    Return a tuple where the first value is a mapping to a row number and the second value is the VxV size matrix.
+  ({Map<dynamic, int> indexMap, List<List<int>> matrix}) getAsAdjacencyMatrix() {
+    final vertexToIndexMap = {for (final (index, vertex) in vertexList.indexed) vertex: index};
+    final adjacencyMatrix = [for (final _ in vertexList) List.filled(vertexList.length, 0)];
+
+    for (final edge in edgeList) {
+      adjacencyMatrix[vertexToIndexMap[edge.$1]!][vertexToIndexMap[edge.$2]!] = 1;
+    }
+
+    return (indexMap: vertexToIndexMap, matrix: adjacencyMatrix);
+  }
 
   Map<dynamic, List<dynamic>> getAsAdjacencyList() {
     final adjList = {for (final vertex in vertexList) vertex: <dynamic>[]};
@@ -65,6 +73,7 @@ typedef TestCase = ({
   List<dynamic> vertexList,
   List<(dynamic, dynamic)> edgeList,
   Map<dynamic, List<dynamic>> expectedAdjList,
+  Map<dynamic, int> expectedIndexMap,
   List<List<int>> expectedAdjMatrix,
   String description,
 });
@@ -79,6 +88,7 @@ main() {
         "n2": [],
         "n3": []
       },
+      expectedIndexMap: {"n1": 0, "n2": 1, "n3": 2},
       expectedAdjMatrix: [
         [0, 1, 0],
         [0, 0, 0],
@@ -95,6 +105,7 @@ main() {
         "c": ["d"],
         "d": ["a"]
       },
+      expectedIndexMap: {"a": 0, "b": 1, "c": 2, "d": 3},
       expectedAdjMatrix: [
         [0, 1, 0, 0],
         [0, 0, 1, 0],
@@ -107,6 +118,7 @@ main() {
       vertexList: ["x", "y", "z"],
       edgeList: [],
       expectedAdjList: {"x": [], "y": [], "z": []},
+      expectedIndexMap: {"x": 0, "y": 1, "z": 2},
       expectedAdjMatrix: [
         [0, 0, 0],
         [0, 0, 0],
@@ -122,6 +134,7 @@ main() {
         "q": ["r"],
         "r": []
       },
+      expectedIndexMap: {"p": 0, "q": 1, "r": 2},
       expectedAdjMatrix: [
         [0, 1, 1],
         [0, 0, 1],
@@ -136,11 +149,21 @@ main() {
       vertexList: test.vertexList,
       edgeList: test.edgeList,
     );
-    final result = graphConverter.getAsAdjacencyList();
-    if (result.toString() != test.expectedAdjList.toString()) {
+    final actualAdjList = graphConverter.getAsAdjacencyList();
+    if (actualAdjList.toString() != test.expectedAdjList.toString()) {
       throw Exception(
-        'Failed for test ${index + 1}: ${test.description}\nExpected: ${test.expectedAdjList}\nActual: $result',
+        'Failed for test ${index + 1}: ${test.description}\nExpected: ${test.expectedAdjList}\nActual: $actualAdjList',
       );
+    }
+    final actualAdjMatrix = graphConverter.getAsAdjacencyMatrix();
+    if (actualAdjMatrix.matrix.toString() != test.expectedAdjMatrix.toString()) {
+      throw Exception(
+        'Failed for test ${index + 1}: ${test.description}\nExpected: ${test.expectedAdjMatrix}\nActual: $actualAdjMatrix',
+      );
+    }
+    if (actualAdjMatrix.indexMap.toString() != test.expectedIndexMap.toString()) {
+      throw Exception(
+          'Test ${index + 1} index map failed: ${test.description}\nExpected: ${test.expectedIndexMap}\nActual: ${actualAdjMatrix.indexMap}');
     }
   }
 
